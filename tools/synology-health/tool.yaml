@@ -1,0 +1,54 @@
+apiVersion: pardo.ai/v0
+kind: ToolImplementation
+
+metadata:
+  id: synology-health
+  version: 0.1.0
+  lifecycle: CANDIDATE
+
+spec:
+  provides:
+    - storage.health@0.1.0
+
+  implementation:
+    type: adapter
+    runtime: python
+    backend: net-snmp
+
+  placement:
+    type: broker
+    host: infra-control
+
+  security:
+    risk: READ
+    networkIntent:
+      protocol: udp
+      port: 161
+      targetRef: synology-primary
+
+    secrets:
+      - ref: synology-primary-snmpv3
+        type: snmpv3-authpriv
+
+    snmp:
+      version: 3
+      securityLevel: authPriv
+      authProtocol: SHA
+      privacyProtocol: AES
+
+    arbitraryHost: false
+    arbitraryOid: false
+    shellExposure: false
+
+  runtime:
+    requiredExecutables:
+      - /usr/bin/snmpget
+      - /usr/bin/snmpwalk
+
+  target:
+    ref: synology-primary
+
+  status:
+    testedAgainst:
+      model: DS220j
+      dsmVersion: DSM 7.3-86009

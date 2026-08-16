@@ -1,0 +1,73 @@
+apiVersion: pardo.ai/v0
+kind: Capability
+
+metadata:
+  id: storage.health
+  version: 0.1.0
+
+spec:
+  description: >
+    Read-only health inspection of an authorized storage system.
+
+  risk: READ
+  sideEffects: none
+  approval: none
+
+  input:
+    targetId:
+      type: string
+
+  output:
+    target:
+      reachable: boolean
+      model: string
+      dsmVersion: string
+
+    system:
+      status: string
+      temperatureC: integer
+      powerStatus: string
+      systemFanStatus: string
+      cpuFanStatus: string
+      thermalStatus: string
+      cpuUtilizationPct: integer
+      memoryUtilizationPct: integer
+
+    disks:
+      type: array
+      items:
+        name: string
+        model: string
+        type: string
+        role: string
+        status: string
+        healthStatus: string
+        temperatureC: integer
+        badSectors: integer
+        retryCount: integer
+        identifyFailCount: integer
+
+    storageItems:
+      type: array
+      items:
+        name: string
+        kind: string
+        status: string
+        freeBytes: integer
+        totalBytes: integer
+
+    overall:
+      healthy: boolean
+      issues:
+        type: array
+
+  security:
+    exposesCredentials: false
+    exposesAdministrativeShell: false
+    exposesArbitraryOidAccess: false
+
+  evidence:
+    sanitizeSecrets: true
+    exclude:
+      - nasSerialNumber
+      - snmpCredentials
