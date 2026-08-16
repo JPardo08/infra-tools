@@ -22,3 +22,5 @@ build/
 *.secret
 *.secrets
 snmp.conf
+bindings.local.json
+*.snmpv3.json

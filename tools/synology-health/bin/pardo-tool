@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+"""ToolRuntimeContract entrypoint for synology-health."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+
+def _bootstrap() -> None:
+    tool_root = Path(__file__).resolve().parents[1]
+    src = tool_root / "src"
+    src_text = str(src)
+
+    if src_text not in sys.path:
+        sys.path.insert(0, src_text)
+
+
+def main() -> int:
+    _bootstrap()
+    from synology_health.cli import main as cli_main
+
+    return cli_main()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

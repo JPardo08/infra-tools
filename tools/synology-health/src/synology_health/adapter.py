@@ -53,7 +53,7 @@ class SynologyTarget:
 
 @dataclass(frozen=True)
 class SnmpV3Credentials:
-    username: str
+    username: str = field(repr=False)
     auth_passphrase: str = field(repr=False)
     privacy_passphrase: str = field(repr=False)
 

@@ -45,6 +45,33 @@ spec:
       - /usr/bin/snmpget
       - /usr/bin/snmpwalk
 
+  contract:
+    apiVersion: pardo.ai/v0
+    kind: ToolRuntimeContract
+
+    entrypoint:
+      path: bin/pardo-tool
+      argv: []
+
+    io:
+      request: stdin-json
+      response: stdout-json
+      diagnostics: stderr-text
+
+    operations:
+      describe: {}
+      check-deps: {}
+      probe:
+        requiresInput:
+          - targetId
+      invoke:
+        requiresInput:
+          - targetId
+
+    bindings:
+      configPathEnv: PARDO_TOOL_BINDINGS_PATH
+      secretPathKey: path
+
   target:
     ref: synology-primary
 

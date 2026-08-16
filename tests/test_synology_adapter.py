@@ -383,5 +383,19 @@ class SynologyHealthAdapterTests(unittest.TestCase):
         self.assertIn("<redacted>", message)
 
 
+    def test_credentials_repr_exposes_no_secret_material(self):
+        rendered = repr(self.credentials)
+
+        self.assertNotIn(self.credentials.username, rendered)
+        self.assertNotIn(
+            self.credentials.auth_passphrase,
+            rendered,
+        )
+        self.assertNotIn(
+            self.credentials.privacy_passphrase,
+            rendered,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
