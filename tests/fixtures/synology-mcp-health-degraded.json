@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "data": {
+    "system": {
+      "model": "DS220j",
+      "serial": "SECRET-SERIAL-DO-NOT-EMIT",
+      "firmware_ver": "7.3-86009",
+      "sys_temp": 51
+    },
+    "disks": {
+      "disks": [
+        {
+          "id": "sata1",
+          "name": "Drive 1",
+          "model": "WDC WD40EFPX-68C6CN0",
+          "status": "normal",
+          "temp": 38,
+          "smart_status": "normal"
+        },
+        {
+          "id": "sata2",
+          "name": "Drive 2",
+          "model": "WDC WD40EFPX-68C6CN0",
+          "status": "degraded",
+          "temp": 44,
+          "smart_status": "warning"
+        }
+      ]
+    },
+    "volumes": {
+      "volumes": [
+        {
+          "id": "volume_1",
+          "volume_path": "/volume1",
+          "status": "degraded",
+          "size": {"total": "3937328955392", "used": "3500000000000"}
+        }
+      ]
+    },
+    "storage_pools": {
+      "pools": [
+        {
+          "id": "pool-1",
+          "status": "degraded",
+          "raid_type": "raid_1",
+          "size": {"total": "3937328955392", "used": "3500000000000"}
+        }
+      ]
+    }
+  }
+}

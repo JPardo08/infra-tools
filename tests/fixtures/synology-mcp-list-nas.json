@@ -1,0 +1,9 @@
+[
+  {
+    "nas_name": "nas1",
+    "base_url": "https://synology-primary:5001",
+    "username": "pardo-auditor",
+    "connected": true,
+    "note": "primary"
+  }
+]

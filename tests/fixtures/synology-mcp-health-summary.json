@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "data": {
+    "system": {
+      "model": "DS220j",
+      "serial": "SECRET-SERIAL-DO-NOT-EMIT",
+      "firmware_ver": "7.3-86009",
+      "sys_temp": 42,
+      "up_time": "12:4:33",
+      "time": "2026-08-18T00:00:00Z",
+      "ram_size": 512
+    },
+    "utilization": {
+      "cpu": {"user": 1, "system": 2, "other": 0, "idle": 97},
+      "memory": {
+        "real_usage": 45,
+        "avail_real": 280000,
+        "total_real": 512000
+      }
+    },
+    "disks": {
+      "disks": [
+        {
+          "id": "sata1",
+          "disk": "sata1",
+          "name": "Drive 1",
+          "model": "WDC WD40EFPX-68C6CN0",
+          "vendor": "WDC",
+          "status": "normal",
+          "temp": 35,
+          "diskType": "SATA",
+          "size_total": "4000787030016",
+          "smart_status": "normal"
+        },
+        {
+          "id": "sata2",
+          "disk": "sata2",
+          "name": "Drive 2",
+          "model": "WDC WD40EFPX-68C6CN0",
+          "status": "normal",
+          "temp": 36,
+          "diskType": "SATA",
+          "size_total": "4000787030016",
+          "smart_status": "normal"
+        }
+      ]
+    },
+    "volumes": {
+      "volumes": [
+        {
+          "id": "volume_1",
+          "volume_path": "/volume1",
+          "status": "normal",
+          "fs_type": "btrfs",
+          "size": {
+            "total": "3937328955392",
+            "used": "1200000000000"
+          },
+          "used_size_pct": 30,
+          "container": "pool-1"
+        }
+      ]
+    },
+    "storage_pools": {
+      "pools": [
+        {
+          "id": "pool-1",
+          "status": "normal",
+          "device_type": "raid1",
+          "raid_type": "raid_1",
+          "size": {
+            "total": "3937328955392",
+            "used": "1200000000000"
+          },
+          "disks": ["sata1", "sata2"]
+        }
+      ]
+    }
+  }
+}

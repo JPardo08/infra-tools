@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "data": {
+    "system": {
+      "model": "DS220j",
+      "serial": "SECRET-SERIAL-DO-NOT-EMIT",
+      "firmware_ver": "DSM 7.4.1-90080",
+      "sys_temp": 40
+    },
+    "utilization": {
+      "cpu": {
+        "user_load": 6,
+        "system_load": 3,
+        "other_load": 32,
+        "1min_load": 32
+      },
+      "memory": {
+        "real_usage": 52,
+        "avail_real": 76276,
+        "total_real": 496364
+      }
+    }
+  }
+}

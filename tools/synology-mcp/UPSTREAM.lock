@@ -1,0 +1,5 @@
+repository=atom2ueki/mcp-server-synology
+url=https://github.com/atom2ueki/mcp-server-synology
+revision=6afdaa3407e07c786d79644b92930152751af223
+license=MIT
+usage=external-mcp-server

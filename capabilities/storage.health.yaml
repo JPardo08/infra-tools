@@ -3,71 +3,122 @@ kind: Capability
 
 metadata:
   id: storage.health
-  version: 0.1.0
+  version: 1.0.0
 
 spec:
   description: >
     Read-only health inspection of an authorized storage system.
+    The public contract is vendor-agnostic. A caller names a
+    previously resolved targetRef; ToolFactory executes it through
+    one concrete implementation.
 
   risk: READ
   sideEffects: none
   approval: none
 
   input:
-    targetId:
+    targetRef:
       type: string
+      required: true
+    options:
+      type: object
+      required: false
 
   output:
-    target:
-      reachable: boolean
-      model: string
-      dsmVersion: string
-
-    system:
-      status: string
-      temperatureC: integer
-      powerStatus: string
-      systemFanStatus: string
-      cpuFanStatus: string
-      thermalStatus: string
-      cpuUtilizationPct: integer
-      memoryUtilizationPct: integer
-
-    disks:
-      type: array
-      items:
-        name: string
-        model: string
-        type: string
-        role: string
-        status: string
-        healthStatus: string
-        temperatureC: integer
-        badSectors: integer
-        retryCount: integer
-        identifyFailCount: integer
-
-    storageItems:
-      type: array
-      items:
-        name: string
-        kind: string
-        status: string
-        freeBytes: integer
-        totalBytes: integer
-
+    targetRef:
+      type: string
+    timestamp:
+      type: string
     overall:
-      healthy: boolean
+      status:
+        type: string
+        enum:
+          - HEALTHY
+          - ATTENTION
+          - CRITICAL
+          - UNKNOWN
+      healthy:
+        type: boolean
       issues:
         type: array
+    capacity:
+      totalBytes:
+        type: integer
+        nullable: true
+      usedBytes:
+        type: integer
+        nullable: true
+      availableBytes:
+        type: integer
+        nullable: true
+      utilizationPct:
+        type: integer
+        nullable: true
+    system:
+      reachable:
+        type: boolean
+      model:
+        type: string
+        nullable: true
+      firmwareVersion:
+        type: string
+        nullable: true
+      status:
+        type: string
+        nullable: true
+      temperatureC:
+        type: integer
+        nullable: true
+    pools:
+      type: array
+    volumes:
+      type: array
+    disks:
+      type: array
+    temperatures:
+      type: object
+    warnings:
+      type: array
+    unavailableFields:
+      type: array
+    evidence:
+      type: object
+    implementation:
+      id:
+        type: string
+      version:
+        type: string
+      upstream:
+        type: string
+        nullable: true
+
+  errors:
+    TARGET_NOT_FOUND: Target is not present in the implementation mapping or backend.
+    TARGET_AMBIGUOUS: Multiple backend candidates matched the targetRef.
+    adapter_error: The implementation could not complete a read-only health query.
 
   security:
     exposesCredentials: false
     exposesAdministrativeShell: false
     exposesArbitraryOidAccess: false
+    exposesMutatingBackendTools: false
 
   evidence:
     sanitizeSecrets: true
     exclude:
       - nasSerialNumber
+      - username
+      - password
+      - sessionId
       - snmpCredentials
+
+  implementations:
+    - id: synology-health
+      version: 0.1.0
+      backend: net-snmp
+      provides: storage.health@0.1.0
+    - id: synology-mcp
+      version: 1.0.0
+      backend: synology-mcp
+      upstream: atom2ueki/mcp-server-synology@6afdaa3407e07c786d79644b92930152751af223
+      provides: storage.health@1.0.0

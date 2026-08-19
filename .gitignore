@@ -24,3 +24,6 @@ build/
 snmp.conf
 bindings.local.json
 *.snmpv3.json
+
+# Temporary/upstream DSM runtime materialization (not ToolFactory contract)
+tools/synology-mcp/settings.json

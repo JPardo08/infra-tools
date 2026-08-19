@@ -1,0 +1,83 @@
+apiVersion: pardo.ai/v0
+kind: ToolImplementation
+
+metadata:
+  id: synology-mcp
+  version: 1.0.0
+  lifecycle: CANDIDATE
+
+spec:
+  provides:
+    - storage.health@1.0.0
+
+  implementation:
+    type: adapter
+    runtime: python
+    backend: mcp
+
+  upstream:
+    repository: atom2ueki/mcp-server-synology
+    url: https://github.com/atom2ueki/mcp-server-synology
+    revision: 6afdaa3407e07c786d79644b92930152751af223
+    license: MIT
+    usage: external-mcp-server
+
+  mcp:
+    transport: stdio
+    allowedTools:
+      - synology_list_nas
+      - synology_health_summary
+
+  placement:
+    type: broker
+    host: infra-control
+
+  security:
+    risk: READ
+    networkIntent:
+      protocol: stdio
+      childNetwork: nas-configured-only
+    secrets: []
+    arbitraryHost: false
+    arbitraryOid: false
+    shellExposure: false
+    mutatingTools: false
+
+  runtime:
+    requiredExecutables: []
+    mcpCommandFromBindings: true
+
+  contract:
+    apiVersion: pardo.ai/v0
+    kind: ToolRuntimeContract
+
+    entrypoint:
+      path: bin/pardo-tool
+      argv: []
+
+    io:
+      request: stdin-json
+      response: stdout-json
+      diagnostics: stderr-text
+
+    operations:
+      describe: {}
+      check-deps: {}
+      probe:
+        requiresInput:
+          - targetRef
+      invoke:
+        requiresInput:
+          - targetRef
+
+    bindings:
+      configPathEnv: PARDO_TOOL_BINDINGS_PATH
+
+  target:
+    resolution: bindings
+
+  status:
+    testedAgainst:
+      model: DS220j
+      dsmVersion: DSM 7.4.1-90080
+      note: Live target synology-primary. System monitoring can return system/utilization while Disk/Volume/Pool stay unavailable; PARDO maps that to UNKNOWN with unavailableFields.
